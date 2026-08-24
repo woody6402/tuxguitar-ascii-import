@@ -160,6 +160,9 @@ A plugin built against TuxGuitar 2.1.1 has successfully been loaded into a separ
 
 Copy the plugin JAR into the appropriate TuxGuitar plugin directory and restart TuxGuitar.
 
+This is only intended as early preview version. As example there's Mozart's Rondo alla Turce added in an handled and unhandled version.
+Please BEWARE: you need to edit the first parsing result to achieve a proper playing version. But it reduces rewriting from the tab dramatically.
+
 ## Development status
 
 Current focus:
