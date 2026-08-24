@@ -219,4 +219,4 @@ Very early BETA
 
 ## Disclaimer
 
-bulid under use of AI but with a longtime tabulature experience also in conding back to Atafra times.
+bulid under use of AI but with a longtime tabulature experience also in coding back to Atafra times.
