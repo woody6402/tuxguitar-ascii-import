@@ -239,4 +239,4 @@ Very early BETA
 
 ## Disclaimer
 
-bulid under use of AI but with a longtime tabulature experience also in coding back to Atafra times.
+bulid under use of AI but with a longtime tabulature experience also in coding back to Atari 1040 times.
