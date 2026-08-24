@@ -213,6 +213,8 @@ ASCII TAB conventions vary widely. Examples of files that import correctly, part
 
 Please include a small representative TAB fragment when reporting parsing issues.
 
+Also beware that due to the current state no answer or correction can be expected ...
+
 ## Status
 
 Very early BETA
