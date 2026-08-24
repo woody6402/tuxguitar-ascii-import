@@ -195,7 +195,7 @@ The objective is not:
 
 but rather:
 
-> Turn as many existing ASCII TABs as possible into a useful, playable TuxGuitar starting point.
+> Turn as many existing ASCII TABs as possible into a useful, further editable TuxGuitar starting point.
 
 Manual correction inside TuxGuitar is expected and is part of the intended workflow.
 
