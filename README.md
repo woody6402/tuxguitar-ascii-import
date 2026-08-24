@@ -233,7 +233,9 @@ Very early BETA
     - some automagic extracted pieces were checked
   - Ultimate guitar
     - since there are tons of contrubutors, there are tons of writing styles. but reading was also possible in >90%
-  -             
+  - Tuxguitar tab export
+    - tried for Bach Cello suite No 1 - seems to work
+    - Moore Spanish Guitar: after adding time: 3/4 (was not written by export), import succeeded in playable form               
 
 ## Disclaimer
 
