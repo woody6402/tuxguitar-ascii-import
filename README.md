@@ -31,6 +31,7 @@ D|---------2----2----2----|
 A|----0----3----3----3----|
 E|------------------------|
 ```
+Please beware: special actions like p,h,/, ... are currently not handled, they can stay in, but will be eliminated.
 
 Supported file extensions:
 
