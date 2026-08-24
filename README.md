@@ -80,7 +80,7 @@ D|
 The importer currently understands:
 
 ```text
-time: 2/4
+time: a/b => typical timings like: 2/4, 3/4. 4/4, .... 
 tempo: 80
 ```
 
