@@ -12,7 +12,7 @@ The approach of this plugin is pragmatic:
 
 1. recognize the common de-facto ASCII TAB structure
 2. extract as much musical information as possible
-3. create a playable TuxGuitar song
+3. create a base TuxGuitar song
 4. allow the user to correct or refine the result inside TuxGuitar
 
 The goal is not perfect reconstruction of the original score. ASCII TAB usually does not contain enough information for that.
