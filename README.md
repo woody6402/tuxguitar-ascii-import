@@ -217,6 +217,24 @@ Please include a small representative TAB fragment when reporting parsing issues
 
 Very early BETA
 
+## Test Observations
+
+- if midi or automatic generated ascii tabs quantisation can bring playable results
+- based on writing style empty measures at the end of an ascii tab may be generated
+- tuning is parsed but not correctly forwarded to tuxguitar
+- time measure needs more pattern: time, timing, ... takt
+- if time is missing 4/4 is assumed, if another time is needed, simple write it at the beginning of the ascii file => time; 2/4
+- archives:
+  - classtab: examples from mozart, teleman, arlen, bach, mancini, ... - tons of pieces were tried
+    - reading works in > 90%
+    - note timing is guessed/calculated and depends on writing style (favours automaic generation i.e if source was midi)
+    - beware; main target is to get the note material and adjust timing per hand accordingly
+  - LickByNeck
+    - some automagic extracted pieces were checked
+  - Ultimate guitar
+    - since there are tons of contrubutors, there are tons of writing styles. but reading was also possible in >90%
+  -             
+
 ## Disclaimer
 
 bulid under use of AI but with a longtime tabulature experience also in coding back to Atafra times.
