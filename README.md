@@ -178,7 +178,7 @@ Current focus:
 
 Next planned steps:
 
-1. title and additional metadata
+1. ~~title and additional metadata~~
 2. configurable/adaptive quantization
 3. explicit tuning metadata
 4. multi-digit fret alignment improvements
