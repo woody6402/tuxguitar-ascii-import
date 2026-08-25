@@ -1,0 +1,5 @@
+### Plugin Information ###
+plugin.name=ASCII tab import plugin
+plugin.description=This plugin lets you import ASCII tabs (txt, tab).
+plugin.author=Andreas Holzer
+plugin.version=0.9
