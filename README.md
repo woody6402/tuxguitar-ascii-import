@@ -223,7 +223,7 @@ Very early BETA
 
 - if midi or automatic generated ascii tabs quantisation can bring playable results
 - based on writing style empty measures at the end of an ascii tab may be generated
-- tuning is parsed but not correctly forwarded to tuxguitar
+- --tuning is parsed but not correctly forwarded to tuxguitar-- 
 - time measure needs more pattern: time, timing, ... takt
 - if time is missing 4/4 is assumed, if another time is needed, simple write it at the beginning of the ascii file => time; 2/4
 - archives:
