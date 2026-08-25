@@ -221,11 +221,11 @@ Very early BETA
 
 ## Test Observations
 
-- if midi or automatic generated ascii tabs quantisation can bring playable results
+- if a tab is generated out of a music stream (i.e. midi) the quantisation result can be nearby playable (since these programs generate reasonable spasings between notes)
 - based on writing style empty measures at the end of an ascii tab may be generated
 - ~~tuning is parsed but not correctly forwarded to tuxguitar~~ 
 - ~~time measure needs more pattern: time, timing, ... takt~~
-- if time is missing 4/4 is assumed, if another time is needed, simple write it at the beginning of the ascii file => time; 2/4
+- if time is missing, 4/4 is assumed, if another time is needed, simple write it at the beginning of the ascii file => time; 2/4
 - archives:
   - classtab: examples from mozart, teleman, arlen, bach, mancini, ... - tons of pieces were tried
     - reading works in > 90%
