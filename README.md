@@ -4,6 +4,8 @@ Experimental ASCII tablature importer for TuxGuitar.
 
 The plugin adds support for opening common ASCII guitar tablature files directly in TuxGuitar. It is intended as a **best-effort importer**, not as an implementation of a formal ASCII TAB standard.
 
+**BEWARE: ascii imports need adaptations after importing since note length are guessed out of the spacing of the tab.**  
+
 ## Background
 
 ASCII guitar tablature has existed for decades, but there is no single universally adopted specification. Different TAB collections and websites use different conventions for string labels and tuning, measure separators, note spacing, rhythm, effects, repeats and metadata.
@@ -209,8 +211,8 @@ Next planned steps:
 2. configurable/adaptive quantization
 3. ~~explicit tuning metadata~~
 4. multi-digit fret alignment improvements
-5. hammer-on / pull-off / slide / vibrato effects
-6. testing with TAB collections from different sources
+5. ~~hammer-on / pull-off / slide / vibrato effects~~
+6. ~~testing with TAB collections from different sources~~
 
 ## Why this can still be useful
 
