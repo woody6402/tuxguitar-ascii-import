@@ -58,6 +58,10 @@ public class AsciiTabParser {
             Pattern.compile(
                     "(?i)\\btempo\\s*:\\s*(\\d+)");  
 
+    private static final Pattern TUNING_PATTERN =
+            Pattern.compile(
+                    "(?i)\\btuning\\b\\s*[:=]?\\s*\\(([^)]*)\\)");
+
     /*
      * Labelled TAB line:
      *
@@ -124,6 +128,7 @@ public class AsciiTabParser {
     private int timeNumerator = 4;
     private int timeDenominator = 4;
     private int tempo = 120;   
+    private String[] explicitTuning;
 
 
     /*
@@ -407,6 +412,7 @@ public class AsciiTabParser {
         this.timeNumerator = 4;
         this.timeDenominator = 4;
         this.tempo = 120;
+        this.explicitTuning = null;
 
         for (String line : lines) {
 
@@ -454,6 +460,26 @@ public class AsciiTabParser {
                     debug(
                             "metadata: tempo="
                             + this.tempo);
+                }
+            }
+
+            Matcher tuningMatcher =
+                    TUNING_PATTERN.matcher(line);
+
+            if (tuningMatcher.find()) {
+
+                String[] tuning =
+                        parseTuningNames(
+                                tuningMatcher.group(1));
+
+                if (tuning != null) {
+                    this.explicitTuning = tuning;
+
+                    debug(
+                            "metadata: tuning="
+                            + Arrays.toString(
+                                    this.explicitTuning)
+                            + " (low to high)");
                 }
             }
             
@@ -1115,6 +1141,11 @@ public class AsciiTabParser {
             List<String> rawLines,
             int[] rowMapping) {
 
+        if (this.explicitTuning != null) {
+            return tuningFromLowToHighNames(
+                    this.explicitTuning);
+        }
+
         String[] labels =
                 new String[6];
 
@@ -1195,6 +1226,126 @@ public class AsciiTabParser {
 
         return tuning;
     }     
+
+    /**
+     * Parse exactly six pitch names inside the tuning parentheses.
+     *
+     * Examples (low string to high string):
+     *
+     * DADGBE
+     * D A D G B E
+     * Eb Ab Db Gb Bb Eb
+     * D A D F# A D
+     */
+    private String[] parseTuningNames(
+            String value) {
+
+        if (value == null) {
+            return null;
+        }
+
+        List<String> names =
+                new ArrayList<String>();
+
+        int index = 0;
+
+        while (index < value.length()) {
+
+            char character =
+                    value.charAt(index);
+
+            if (Character.isWhitespace(character)
+                    || character == ',') {
+
+                index++;
+                continue;
+            }
+
+            char upper =
+                    Character.toUpperCase(character);
+
+            if ((upper < 'A' || upper > 'G')
+                    && upper != 'H') {
+
+                return null;
+            }
+
+            StringBuilder name =
+                    new StringBuilder();
+
+            name.append(upper);
+            index++;
+
+            if (index < value.length()) {
+
+                char accidental =
+                        value.charAt(index);
+
+                if (accidental == '#') {
+                    name.append('#');
+                    index++;
+                } else if (accidental == 'b'
+                        && Character.isUpperCase(character)) {
+
+                    name.append('b');
+                    index++;
+                }
+            }
+
+            if (noteToSemitone(name.toString()) == null) {
+                return null;
+            }
+
+            names.add(name.toString());
+        }
+
+        if (names.size() != 6) {
+            return null;
+        }
+
+        return names.toArray(
+                new String[names.size()]);
+    }
+
+    private int[] tuningFromLowToHighNames(
+            String[] names) {
+
+        int[] tuning =
+                copy(STANDARD_TUNING);
+
+        for (int stringIndex = 0;
+                stringIndex < 6;
+                stringIndex++) {
+
+            String targetName =
+                    names[5 - stringIndex];
+
+            Integer standardPitch =
+                    noteToSemitone(
+                            STANDARD_NAMES[stringIndex]);
+
+            Integer targetPitch =
+                    noteToSemitone(targetName);
+
+            int delta =
+                    (targetPitch.intValue()
+                    - standardPitch.intValue()
+                    + 12)
+                    % 12;
+
+            if (delta > 6) {
+                delta -= 12;
+            }
+
+            tuning[stringIndex] += delta;
+        }
+
+        debug(
+                "explicit tuning: "
+                + Arrays.toString(tuning));
+
+        return tuning;
+    }
      
 
     private int[] detectTuningFromLabelsOld(

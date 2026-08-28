@@ -31,7 +31,8 @@ D|---------2----2----2----|
 A|----0----3----3----3----|
 E|------------------------|
 ```
-Please beware: special actions like p,h,/, ... are currently not handled, they can stay in, but will be eliminated.
+Common effect notation is recognized for hammer-ons, pull-offs, slides,
+vibrato, dead notes and tied continuation notes.
 
 Supported file extensions:
 
@@ -74,6 +75,19 @@ D|
 A|
 D|
 ```
+
+For TABs without string labels, an explicit tuning can be supplied from the
+lowest to the highest string:
+
+```text
+tuning (DADGBE)
+tuning: (D A D G B E)
+tuning (D A D F# A D)
+tuning (Eb Ab Db Gb Bb Eb)
+```
+
+Unlabelled strings continue to use standard tuning when no explicit tuning is
+present.
 
 ## Metadata
 
@@ -140,9 +154,22 @@ ASCII TAB commonly uses symbols such as:
 x
 ```
 
-At the moment the importer primarily extracts the notes themselves.
+The importer currently maps these forms to TuxGuitar note information:
 
-A planned second parsing pass will analyze the characters around and between consecutive notes on the same string. Planned effects include hammer-ons, pull-offs, slides, vibrato and dead notes, which can then be mapped to TuxGuitar `TGNoteEffect` information.
+```text
+8h10   hammer-on
+8p7    pull-off
+4/5    ascending slide
+7\5    descending slide
+7~     vibrato
+x      dead note
+(8)    tied continuation note
+```
+
+Hammer-ons and pull-offs share TuxGuitar's hammer effect; their direction is
+determined by the fret values. Ascending and descending slides similarly share
+TuxGuitar's slide effect. Connections are recognized only between consecutive
+notes on the same string and do not cross a measure separator.
 
 ## Compatibility
 
@@ -180,7 +207,7 @@ Next planned steps:
 
 1. ~~title and additional metadata~~
 2. configurable/adaptive quantization
-3. explicit tuning metadata
+3. ~~explicit tuning metadata~~
 4. multi-digit fret alignment improvements
 5. hammer-on / pull-off / slide / vibrato effects
 6. testing with TAB collections from different sources

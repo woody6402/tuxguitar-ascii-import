@@ -844,6 +844,21 @@ public class AsciiTabSongBuilder {
             note.setVelocity(
                     64);
 
+            note.setTiedNote(
+                    sourceNote.isTiedNote());
+
+            note.getEffect().setDeadNote(
+                    sourceNote.isDeadNote());
+
+            note.getEffect().setVibrato(
+                    sourceNote.isVibrato());
+
+            if (sourceNote.isHammer()) {
+                note.getEffect().setHammer(true);
+            } else if (sourceNote.isSlide()) {
+                note.getEffect().setSlide(true);
+            }
+
             voice.addNote(
                     note);
         }

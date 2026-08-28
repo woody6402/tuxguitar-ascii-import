@@ -1221,10 +1221,26 @@ public class AsciiTabQuantizer {
                 int stringNumber =
                         rowMap[row];
 
+                boolean tiedNote =
+                        column > 0
+                        && line.charAt(column - 1) == '('
+                        && end < line.length()
+                        && line.charAt(end) == ')';
+
+                NoteEffects effects =
+                        detectEffectsAfterNote(
+                                line,
+                                tiedNote ? end + 1 : end);
+
                 notes.add(
                         new ParsedNote(
                                 stringNumber,
-                                fret));
+                                fret,
+                                tiedNote,
+                                false,
+                                effects.hammer,
+                                effects.slide,
+                                effects.vibrato));
 
             } else if (character == 'x'
                     || character == 'X') {
@@ -1235,11 +1251,81 @@ public class AsciiTabQuantizer {
                 notes.add(
                         new ParsedNote(
                                 stringNumber,
-                                0));
+                                0,
+                                false,
+                                true,
+                                false,
+                                false,
+                                false));
             }
         }
 
         return notes;
+    }
+
+    /**
+     * Inspect the characters between this note and the next note on the
+     * same string. Effects never cross a measure separator.
+     */
+    private NoteEffects detectEffectsAfterNote(
+            String line,
+            int start) {
+
+        boolean hammer = false;
+        boolean slide = false;
+        boolean vibrato = false;
+        boolean hasFollowingNote = false;
+
+        for (int i = start;
+                i < line.length();
+                i++) {
+
+            char character =
+                    line.charAt(i);
+
+            if (character == '|') {
+                break;
+            }
+
+            if (Character.isDigit(character)
+                    || character == 'x'
+                    || character == 'X') {
+
+                hasFollowingNote = true;
+                break;
+            }
+
+            if (character == 'h'
+                    || character == 'H'
+                    || character == 'p'
+                    || character == 'P') {
+
+                hammer = true;
+            } else if (character == '/'
+                    || character == '\\') {
+
+                slide = true;
+            } else if (character == '~') {
+                vibrato = true;
+            }
+        }
+
+        /*
+         * Hammer/pull-off and slide describe a connection to a following
+         * note. Vibrato applies to the current note and needs no successor.
+         * TuxGuitar treats hammer and slide as mutually exclusive.
+         */
+        if (!hasFollowingNote) {
+            hammer = false;
+            slide = false;
+        } else if (hammer) {
+            slide = false;
+        }
+
+        return new NoteEffects(
+                hammer,
+                slide,
+                vibrato);
     }
 
     /*
@@ -1440,16 +1526,41 @@ public class AsciiTabQuantizer {
 
         private final int stringNumber;
         private final int fret;
+        private final boolean tiedNote;
+        private final boolean deadNote;
+        private final boolean hammer;
+        private final boolean slide;
+        private final boolean vibrato;
 
         public ParsedNote(
                 int stringNumber,
-                int fret) {
+                int fret,
+                boolean tiedNote,
+                boolean deadNote,
+                boolean hammer,
+                boolean slide,
+                boolean vibrato) {
 
             this.stringNumber =
                     stringNumber;
 
             this.fret =
                     fret;
+
+            this.tiedNote =
+                    tiedNote;
+
+            this.deadNote =
+                    deadNote;
+
+            this.hammer =
+                    hammer;
+
+            this.slide =
+                    slide;
+
+            this.vibrato =
+                    vibrato;
         }
 
         public int getStringNumber() {
@@ -1460,13 +1571,55 @@ public class AsciiTabQuantizer {
             return this.fret;
         }
 
+        public boolean isTiedNote() {
+            return this.tiedNote;
+        }
+
+        public boolean isDeadNote() {
+            return this.deadNote;
+        }
+
+        public boolean isHammer() {
+            return this.hammer;
+        }
+
+        public boolean isSlide() {
+            return this.slide;
+        }
+
+        public boolean isVibrato() {
+            return this.vibrato;
+        }
+
         @Override
         public String toString() {
 
             return "s"
                     + this.stringNumber
                     + ":"
-                    + this.fret;
+                    + this.fret
+                    + (this.tiedNote ? "(tied)" : "")
+                    + (this.deadNote ? "(dead)" : "")
+                    + (this.hammer ? "(hammer)" : "")
+                    + (this.slide ? "(slide)" : "")
+                    + (this.vibrato ? "(vibrato)" : "");
+        }
+    }
+
+    private static class NoteEffects {
+
+        private final boolean hammer;
+        private final boolean slide;
+        private final boolean vibrato;
+
+        private NoteEffects(
+                boolean hammer,
+                boolean slide,
+                boolean vibrato) {
+
+            this.hammer = hammer;
+            this.slide = slide;
+            this.vibrato = vibrato;
         }
     }
 
